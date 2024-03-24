@@ -1,13 +1,9 @@
-SELECT pg_terminate_backend(pg_stat_activity.pid)
-FROM pg_stat_activity
-WHERE usename = 'freecodecamp';
-
 --
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.6 (Debian 12.6-1.pgdg90+1)
--- Dumped by pg_dump version 12.6 (Debian 12.6-1.pgdg90+1)
+-- Dumped from database version 12.17 (Ubuntu 12.17-1.pgdg22.04+1)
+-- Dumped by pg_dump version 12.17 (Ubuntu 12.17-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -20,29 +16,23 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE IF EXISTS students;
---
--- Name: students; Type: DATABASE; Schema: -; Owner: freecodecamp
---
-
-CREATE DATABASE students WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
-
-
-ALTER DATABASE students OWNER TO freecodecamp;
-
-\connect students
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
+ALTER TABLE ONLY public.students DROP CONSTRAINT students_major_id_fkey;
+ALTER TABLE ONLY public.majors_courses DROP CONSTRAINT majors_courses_major_id_fkey;
+ALTER TABLE ONLY public.majors_courses DROP CONSTRAINT majors_courses_course_id_fkey;
+ALTER TABLE ONLY public.students DROP CONSTRAINT students_pkey;
+ALTER TABLE ONLY public.majors DROP CONSTRAINT majors_pkey;
+ALTER TABLE ONLY public.majors_courses DROP CONSTRAINT majors_courses_pkey;
+ALTER TABLE ONLY public.courses DROP CONSTRAINT courses_pkey;
+ALTER TABLE public.students ALTER COLUMN student_id DROP DEFAULT;
+ALTER TABLE public.majors ALTER COLUMN major_id DROP DEFAULT;
+ALTER TABLE public.courses ALTER COLUMN course_id DROP DEFAULT;
+DROP SEQUENCE public.students_student_id_seq;
+DROP TABLE public.students;
+DROP SEQUENCE public.majors_major_id_seq;
+DROP TABLE public.majors_courses;
+DROP TABLE public.majors;
+DROP SEQUENCE public.courses_course_id_seq;
+DROP TABLE public.courses;
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
